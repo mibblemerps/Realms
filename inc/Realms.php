@@ -59,6 +59,7 @@ class Realms {
         // Load various helper classes.
         require_once 'inc/HTTP.php';
         require_once 'inc/Session.php';
+        require_once 'inc/HTTPRequest.php';
         require_once 'inc/Response.php';
         require_once 'inc/Server.php';
         
