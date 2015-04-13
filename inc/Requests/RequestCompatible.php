@@ -31,7 +31,7 @@
  */
 class RequestCompatible implements Request {
     public function should_respond($request, $session) {
-        return ($request == '/mco/client/compatible');
+        return ($request->path == '/mco/client/compatible');
     }
     
     public function respond($request, $session) {

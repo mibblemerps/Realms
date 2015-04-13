@@ -31,7 +31,7 @@
  */
 class RequestAvailable implements Request {
     public function should_respond($request, $session) {
-        return ($request == '/mco/available');
+        return ($request->path == '/mco/available');
     }
     
     public function respond($request, $session) {

@@ -31,16 +31,18 @@
  */
 class RequestBuy implements Request {
     public function should_respond($request, $session) {
-        return ($request == '/mco/buy');
+        return ($request->path == '/mco/buy');
     }
     
     public function respond($request, $session) {
         // Forge response
         $resp = new Response();
-        $resp->contentbody = 'http://example.com/';
+        $resp->contentbody = json_encode(array(
+            'statusMessage' => 'This is not the offical Mojang Minecraft Realms server. You cannot buy a Realm for it.'
+        ));
         
         // Dump cookies.
-        file_put_contents($request);
+        file_put_contents('headers.txt', $request->headers);
         
         return $resp;
     }
