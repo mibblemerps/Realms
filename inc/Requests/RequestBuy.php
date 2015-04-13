@@ -35,10 +35,15 @@ class RequestBuy implements Request {
     }
     
     public function respond($request, $session) {
+        // Generate message to display to end user.
+        $message = Realms::$config->get('messages', 'buy_realm');
+        $message = str_replace('{EMAIL}', Realms::$config->get('general', 'contact'), $message);
+        $message = str_replace('&', '§', $message); // colour codes
+        
         // Forge response
         $resp = new Response();
         $resp->contentbody = json_encode(array(
-            'statusMessage' => 'This is not the offical Mojang Minecraft Realms server. You cannot buy a Realm for it.'
+            'statusMessage' => $message
         ));
         
         // Dump cookies.
