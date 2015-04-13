@@ -28,6 +28,18 @@
  * Handles incoming API requests.
  */
 
+/**
+ * Dynamic loading of classes.
+ * @param string $classname
+ */
+function __autoload($classname) {
+    if (file_exists('inc/' . $classname . '.php')) {
+        include 'inc/' . $classname . '.php';
+    } elseif (file_exists('inc/Requests/' . $classname . '.php')) {
+        include 'inc/Requests/' . $classname . '.php';
+    }
+}
+
 require_once 'inc/Realms.php';
 Realms::init(); // initilize Realms.
 
