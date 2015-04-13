@@ -25,34 +25,30 @@
  */
 
 /**
- * Realms API response
+ * HTTP request
  *
  * @author Mitchfizz05
  */
-class Response {
-    /**
-     * The HTTP status code to return.
-     * Default to '200'.
-     * @var int
-     */
-    public $statuscode = 200; // ("HTTP/1.1 200 OK")
+class HTTPRequest {
+    public $path;
+    public $headers;
     
     /**
-     * Content type that the response is encoded in.
-     * Should a MIME type value. Defaults to "text/plain".
-     * @var string
+     * HTTP request
+     * @param string $path Path relative to the target hostname.
+     * @param array $headers Array of headers. The return value of apache_request_headers() is a valid value.
      */
-    public $contenttype = 'application/json'; // Defaults to JSON.
+    public function __construct($path, $headers) {
+        $this->path = $path;
+        $this->headers = $headers;
+    }
     
     /**
-     * The content body to return as a string.
-     * @var string
+     * Get HTTP header from request.
+     * @param string $header Header name
+     * @return string Header value
      */
-    public $contentbody;
-    
-    /**
-     * Was they a failure caused by a user error during the processing of the request.
-     * @var boolean 
-     */
-    public $failure = false;
+    public function get_header($header) {
+        return $this->headers[$header];
+    }
 }

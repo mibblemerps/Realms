@@ -47,15 +47,15 @@ class RequestRegistry {
     /**
      * Handle API request.
      * Ensure request handlers have been registered first.
-     * @param string $path
+     * @param \HTTPRequest $request
      * @return \Response
      */
-    public function handle($path) {
+    public function handle($request) {
         // Check each API handler.
         foreach ($this->handlers as $handler) {
             // Check if handler should respond.
-            if ($handler->should_respond($path, null)) {
-                return $handler->respond($path, null); // allow handler to respond...
+            if ($handler->should_respond($request, null)) {
+                return $handler->respond($request, null); // allow handler to respond...
             }
         }
     }

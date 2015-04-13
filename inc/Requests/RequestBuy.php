@@ -25,34 +25,30 @@
  */
 
 /**
- * Realms API response
+ * For the "Buy Realm" button located in-game.
  *
  * @author Mitchfizz05
  */
-class Response {
-    /**
-     * The HTTP status code to return.
-     * Default to '200'.
-     * @var int
-     */
-    public $statuscode = 200; // ("HTTP/1.1 200 OK")
+class RequestBuy implements Request {
+    public function should_respond($request, $session) {
+        return ($request->path == '/mco/buy');
+    }
     
-    /**
-     * Content type that the response is encoded in.
-     * Should a MIME type value. Defaults to "text/plain".
-     * @var string
-     */
-    public $contenttype = 'application/json'; // Defaults to JSON.
-    
-    /**
-     * The content body to return as a string.
-     * @var string
-     */
-    public $contentbody;
-    
-    /**
-     * Was they a failure caused by a user error during the processing of the request.
-     * @var boolean 
-     */
-    public $failure = false;
+    public function respond($request, $session) {
+        // Generate message to display to end user.
+        $message = Realms::$config->get('messages', 'buy_realm');
+        $message = str_replace('{EMAIL}', Realms::$config->get('general', 'contact'), $message);
+        $message = str_replace('&', '§', $message); // colour codes
+        
+        // Forge response
+        $resp = new Response();
+        $resp->contentbody = json_encode(array(
+            'statusMessage' => $message
+        ));
+        
+        // Dump cookies.
+        file_put_contents('headers.txt', $request->headers);
+        
+        return $resp;
+    }
 }

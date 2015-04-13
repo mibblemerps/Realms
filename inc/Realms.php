@@ -59,6 +59,7 @@ class Realms {
         // Load various helper classes.
         require_once 'inc/HTTP.php';
         require_once 'inc/Session.php';
+        require_once 'inc/HTTPRequest.php';
         require_once 'inc/Response.php';
         require_once 'inc/Server.php';
         
@@ -83,6 +84,9 @@ class Realms {
         
         require_once 'inc/Requests/RequestCompatible.php';
         self::$requestRegistry->register(new RequestCompatible());
+        
+        require_once 'inc/Requests/RequestBuy.php';
+        self::$requestRegistry->register(new RequestBuy());
         
         // Realms init finish.
         self::$hasinit = true;
