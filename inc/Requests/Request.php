@@ -32,7 +32,7 @@ interface Request {
     /**
      * Return true if the request is addressed to this request handler.
      * Otherwise return false.
-     * @param string $request Path requested. Eg. '/worlds/$ID/join'
+     * @param \HTTPRequest $request HTTP request
      * @param \Session $session Session object
      * @return boolean
      */
@@ -40,7 +40,7 @@ interface Request {
     
     /**
      * This is where the handler responds to the API request.
-     * @param string $request Path requested. Eg. '/worlds/$ID/join'
+     * @param \HTTPRequest $request HTTP request
      * @param type $session Session object
      * @return \Response
      */
