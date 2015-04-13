@@ -51,7 +51,8 @@ if (isset($_COOKIE['sid'], $_COOKIE['user'], $_COOKIE['version'])) {
 
 // Handle request.
 $requestpath = '/' . $_GET['path'];
-$resp = Realms::$requestRegistry->handle($requestpath);
+$request = new HTTPRequest($requestpath, apache_request_headers()); // create http request object
+$resp = Realms::$requestRegistry->handle($request);
 
 if ($resp === null) {
     // Bad request.
