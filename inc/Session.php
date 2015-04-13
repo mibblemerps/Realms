@@ -30,9 +30,22 @@
  * @author Mitchfizz05
  */
 class Session {
+    /**
+     * Minecraft session ID. The client obtains this token when they login at the launcher.
+     * @var string 
+     */
     public $sessionid;
     
+    /**
+     * The players username. This can change due to name changes, therefore do not rely on this to stay the same.
+     * @var string
+     */
     public $user;
     
+    /**
+     * The version of Minecraft the player is using.
+     * This is *not* the Minecraft Realms library version, this is the client version, eg. "1.8.3"
+     * @var string
+     */
     public $version;
 }
