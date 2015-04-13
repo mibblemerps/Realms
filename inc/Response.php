@@ -42,7 +42,7 @@ class Response {
      * Should a MIME type value. Defaults to "text/plain".
      * @var string
      */
-    public $contenttype = 'text/plain'; // Defaults to plaintext.
+    public $contenttype = 'application/json'; // Defaults to JSON.
     
     /**
      * The content body to return as a string.
