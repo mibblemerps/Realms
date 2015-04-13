@@ -37,7 +37,7 @@ class RequestCompatible implements Request {
     public function respond($request, $session) {
         // Forge response
         $resp = new Response();
-        $resp->contentbody = '1.8';
+        $resp->contentbody = 'COMPATIBLE';
         
         return $resp;
     }
