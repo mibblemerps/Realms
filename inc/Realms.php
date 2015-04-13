@@ -84,6 +84,9 @@ class Realms {
         require_once 'inc/Requests/RequestCompatible.php';
         self::$requestRegistry->register(new RequestCompatible());
         
+        require_once 'inc/Requests/RequestBuy.php';
+        self::$requestRegistry->register(new RequestBuy());
+        
         // Realms init finish.
         self::$hasinit = true;
         return true;
