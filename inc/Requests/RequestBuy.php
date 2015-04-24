@@ -46,9 +46,6 @@ class RequestBuy implements Request {
             'statusMessage' => $message
         ));
         
-        // Dump cookies.
-        file_put_contents('headers.txt', $request->headers);
-        
         return $resp;
     }
 }
