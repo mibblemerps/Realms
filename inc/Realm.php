@@ -45,6 +45,12 @@ class Realm {
     public $id;
     
     /**
+     * Human readable server name.
+     * @var string
+     */
+    public $server_name;
+    
+    /**
      * The remote IP address of the Realm server.
      * Format: [ip address]:[port]
      * @var string
@@ -98,4 +104,9 @@ class Realm {
      * @var boolean
      */
     public $minigame_server = false;
+    
+    
+    public static function getList() {
+        
+    }
 }
