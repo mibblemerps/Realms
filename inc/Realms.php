@@ -71,6 +71,8 @@ class Realms {
         self::$requestRegistry->register(new RequestAvailable());
         self::$requestRegistry->register(new RequestCompatible());
         self::$requestRegistry->register(new RequestBuy());
+        self::$requestRegistry->register(new RequestWorlds());
+        self::$requestRegistry->register(new RequestJoin());
         
         // Realms init finish.
         self::$hasinit = true;
