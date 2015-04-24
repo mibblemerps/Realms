@@ -46,12 +46,6 @@ Realms::init(); // initilize Realms.
 // Sent our footprint.
 header('X-Powered-By: Realms ' . Realms::VERSION . ' by Mitchfizz05');
 
-// Check if we're in passthrough mode.
-if (Realms::$config->get('debug', 'passthrough')) {
-    include 'passthrough.php'; // we'll let the passthrough script handle this...
-    exit;
-}
-
 
 // Find the client session if applicable.
 $session = new Session();
