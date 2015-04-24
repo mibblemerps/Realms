@@ -46,6 +46,7 @@ class RequestWorlds {
                     'motd' => 'Potatocraft. :)',
                     'state' => 'OPEN',
                     'owner' => 'mitchfizz05',
+                    "ownerUUID" => 'b6284cef69f440d2873054053b1a925d',
                     'daysLeft' => 365,
                     'ip' => 'potatocraft.pw:25565',
                     'expired' => false,
