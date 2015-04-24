@@ -41,11 +41,27 @@ class RequestWorlds {
                 array(
                     'id' => 1,
                     'remoteSubscriptionId' => '1',
-                    'name' => 'Potatocraft',
-                    'players' => array('mitchfizz05', 'mindlux', 'Spazzer400'),
+                    'name' => 'Lolz realm',
+                    'players' => array(
+                        array(
+                            'name' => 'mitchfizz05',
+                            'uuid' => 'b6284cef69f440d2873054053b1a925d',
+                            'operator' => true
+                        ),
+                        array(
+                            'name' => 'mindlux',
+                            'uuid' => '27cf5429ec01499a9edf23b47df8d4f5',
+                            'operator' => false
+                        ),
+                        array(
+                            'name' => 'Spazzer400',
+                            'uuid' => '061e5603aa7b4455910a5547e2160ebc',
+                            'operator' => false
+                        )
+                    ),
                     'motd' => 'Potatocraft. :)',
                     'state' => 'OPEN',
-                    'owner' => 'mitchfizz05',
+                    'owner' => 'mindlux',
                     "ownerUUID" => 'b6284cef69f440d2873054053b1a925d',
                     'daysLeft' => 365,
                     'ip' => 'potatocraft.pw:25565',
