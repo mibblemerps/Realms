@@ -34,43 +34,68 @@ class RequestWorlds {
         return ($request->path == '/worlds');
     }
     
+    /**
+     * Generate a JSON response to be packaged up and sent to the client.
+     * NOTE: Does not return encoded JSON. JSON must manually be encoded with json_encode().
+     * @param \Realm $server
+     */
+    protected function generateServerJSON($server) {
+        // Generate player list.
+        $players = array();
+        foreach ($server->invited_players as $player) {
+            $players[] = array(
+                'name' => $player->getUsername(),
+                'uuid' => $player->getUUID(),
+                'operator' => in_array($player, $server->operators)
+            );
+        }
+        
+        // Formulate JSON response.
+        $json = array(
+            'id' => $server->id,
+            'remoteSubscriptionId' => $server->id,
+            'name' => $server->server_name,
+            'players' => $players,
+            'motd' => $server->motd,
+            'state' => $server->state,
+            'owner' => $server->owner->getUsername(),
+            'ownerUUID' => $server->owner->getUUID(),
+            'daysLeft' => $server->days_left,
+            'ip' => $server->address,
+            'expired' => $server->expired,
+            'minigame' => $server->minigame_server
+        );
+        
+        return $json;
+    }
+    
     public function respond($request, $session) {
-        // Forge response
-        $responsetext = array(
+        $server = new Realm();
+        $server->id = 1;
+        $server->address = 'potatocraft.pw:25565';
+        $server->server_name = 'Potatocraft';
+        $server->days_left = 365;
+        $server->expired = false;
+        $server->invited_players = array(
+            new Player('b6284cef69f440d2873054053b1a925d', 'mitchfizz05'),
+            new Player('27cf5429ec01499a9edf23b47df8d4f5', 'mindlux'),
+            new Player('061e5603aa7b4455910a5547e2160ebc', 'Spazzer400')
+        );
+        $server->operators = array(
+            new Player('b6284cef69f440d2873054053b1a925d', 'mitchfizz05')
+        );
+        $server->minigame_server = false;
+        $server->motd = 'Potatos have lots of calories.';
+        $server->owner = new Player('b6284cef69f440d2873054053b1a925d', 'mitchfizz05');
+        
+        // Generate response.
+        $json = array(
             'servers' => array(
-                array(
-                    'id' => 1,
-                    'remoteSubscriptionId' => '1',
-                    'name' => 'Lolz realm',
-                    'players' => array(
-                        array(
-                            'name' => 'mitchfizz05',
-                            'uuid' => 'b6284cef69f440d2873054053b1a925d',
-                            'operator' => true
-                        ),
-                        array(
-                            'name' => 'mindlux',
-                            'uuid' => '27cf5429ec01499a9edf23b47df8d4f5',
-                            'operator' => false
-                        ),
-                        array(
-                            'name' => 'Spazzer400',
-                            'uuid' => '061e5603aa7b4455910a5547e2160ebc',
-                            'operator' => false
-                        )
-                    ),
-                    'motd' => 'Potatocraft. :)',
-                    'state' => 'OPEN',
-                    'owner' => 'mindlux',
-                    "ownerUUID" => 'b6284cef69f440d2873054053b1a925d',
-                    'daysLeft' => 365,
-                    'ip' => 'potatocraft.pw:25565',
-                    'expired' => false,
-                    'minigame' => false
-                )
+                $this->generateServerJSON($server)
             )
         );
-        $responsetext = json_encode($responsetext);
+        
+        $responsetext = json_encode($json);
         
         $resp = new Response();
         $resp->contentbody = $responsetext;
