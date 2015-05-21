@@ -67,12 +67,18 @@ class Realms {
         // Load request registry
         self::$requestRegistry = new RequestRegistry(); // create request registry instance
         
-        // Load request handlers.
-        self::$requestRegistry->register(new RequestAvailable());
-        self::$requestRegistry->register(new RequestCompatible());
-        self::$requestRegistry->register(new RequestBuy());
-        self::$requestRegistry->register(new RequestWorlds());
-        self::$requestRegistry->register(new RequestJoin());
+        // Dynamically load request handlers.
+        $handler_files = scandir('inc/Requests');
+        foreach ($handler_files as $handler_file) {
+            if ($handler_file == '.' || $handler_file == '..') { continue; } // skip ghost files
+            
+            // Load PHP file
+            require 'inc/Requests/' . $handler_file;
+            
+            // Register handler
+            $classname = pathinfo($handler_file, PATHINFO_FILENAME);
+            self::$requestRegistry->register(new $classname);
+        }
         
         // Realms init finish.
         self::$hasinit = true;
