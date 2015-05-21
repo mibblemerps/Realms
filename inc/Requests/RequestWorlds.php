@@ -73,6 +73,7 @@ class RequestWorlds {
         $server = new Realm();
         $server->id = 1;
         $server->address = 'potatocraft.pw:25565';
+        $server->state = Realm::STATE_OPEN;
         $server->server_name = 'Potatocraft';
         $server->days_left = 365;
         $server->expired = false;
