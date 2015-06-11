@@ -99,6 +99,7 @@ class RequestWorlds {
         $responsetext = json_encode($json);
         
         $resp = new Response();
+        $resp->contenttype = 'application/json';
         $resp->contentbody = $responsetext;
         return $resp;
     }
