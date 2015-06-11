@@ -44,7 +44,7 @@ require_once 'inc/Realms.php';
 Realms::init(); // initilize Realms.
 
 // Sent our footprint.
-header('X-Powered-By: Realms ' . Realms::VERSION . ' by Mitchfizz05');
+header('X-Powered-By: Realms ' . Realms::VERSION . ' http://github.com/mitchfizz05/Realms');
 
 
 // Find the client session if applicable.
