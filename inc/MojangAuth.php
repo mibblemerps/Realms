@@ -25,27 +25,39 @@
  */
 
 /**
- * For the "Buy Realm" button located in-game.
+ * Mojang authentication library.
  *
  * @author Mitchfizz05
  */
-class RequestBuy implements Request {
-    public function should_respond($request, $session) {
-        return ($request->path == '/mco/buy');
-    }
+class MojangAuth {
+    /**
+     * The URL to server Mojang authentication server.
+     * Generally there is no reason to change this.
+     * @var string
+     */
+    public $endpoint = 'https://authserver.mojang.com';
     
-    public function respond($request, $session) {
-        // Generate message to display to end user.
-        $message = Realms::$config->get('messages', 'buy_realm');
-        $message = str_replace('{EMAIL}', Realms::$config->get('general', 'contact'), $message);
-        $message = str_replace('&', '§', $message); // colour codes
+    public function validate($sessionid, $verifyssl = true) {
+        // Request payload to be sent to the endpoint.
+        $request = array(
+            'accessToken' => $sessionid
+        );
         
-        // Forge response
-        $resp = new Response();
-        $resp->contentbody = json_encode(array(
-            'statusMessage' => $message
-        ));
+        // Create request.
+        $ch = curl_init($this->endpoint . '/validate');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request));
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_NOBODY, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $verifyssl);
+        $resp = curl_exec($ch); // execute request
         
-        return $resp;
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        
+        file_put_contents('auth.txt', 'result:'.$httpcode . "\r\n" . curl_error($ch)); // dump results
+        
+        curl_close($ch);
     }
 }

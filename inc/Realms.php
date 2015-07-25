@@ -56,15 +56,7 @@ class Realms {
     public static function init() {
         if (self::$hasinit) { return false; }
         
-        // Load various helper classes.
-        require_once 'inc/HTTP.php';
-        require_once 'inc/Session.php';
-        require_once 'inc/HTTPRequest.php';
-        require_once 'inc/Response.php';
-        require_once 'inc/Server.php';
-        
         // Load configuration.
-        require_once 'inc/Config.php';
         self::$config = new Config('realms.ini');
         if (!self::$config->get('general', 'service_requests')) { // Service unavaliable. :(
             http_response_code(503); // 503 Service Unavaliable.
@@ -73,20 +65,20 @@ class Realms {
         }
         
         // Load request registry
-        require_once 'inc/RequestRegistry.php';
         self::$requestRegistry = new RequestRegistry(); // create request registry instance
         
-        require_once 'inc/Requests/Request.php'; // main request interface
-        
-        // Load request handlers.
-        require_once 'inc/Requests/RequestAvailable.php';
-        self::$requestRegistry->register(new RequestAvailable());
-        
-        require_once 'inc/Requests/RequestCompatible.php';
-        self::$requestRegistry->register(new RequestCompatible());
-        
-        require_once 'inc/Requests/RequestBuy.php';
-        self::$requestRegistry->register(new RequestBuy());
+        // Dynamically load request handlers.
+        $handler_files = scandir('inc/Requests');
+        foreach ($handler_files as $handler_file) {
+            if ($handler_file == '.' || $handler_file == '..') { continue; } // skip ghost files
+            
+            // Load PHP file
+            require 'inc/Requests/' . $handler_file;
+            
+            // Register handler
+            $classname = pathinfo($handler_file, PATHINFO_FILENAME);
+            self::$requestRegistry->register(new $classname);
+        }
         
         // Realms init finish.
         self::$hasinit = true;

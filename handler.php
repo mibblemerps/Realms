@@ -28,17 +28,23 @@
  * Handles incoming API requests.
  */
 
+/**
+ * Dynamic loading of classes.
+ * @param string $classname
+ */
+function __autoload($classname) {
+    if (file_exists('inc/' . $classname . '.php')) {
+        include 'inc/' . $classname . '.php';
+    } elseif (file_exists('inc/Requests/' . $classname . '.php')) {
+        include 'inc/Requests/' . $classname . '.php';
+    }
+}
+
 require_once 'inc/Realms.php';
 Realms::init(); // initilize Realms.
 
 // Sent our footprint.
-header('X-Powered-By: Realms ' . Realms::VERSION . ' by Mitchfizz05');
-
-// Check if we're in passthrough mode.
-if (Realms::$config->get('debug', 'passthrough')) {
-    include 'passthrough.php'; // we'll let the passthrough script handle this...
-    exit;
-}
+header('X-Powered-By: Realms ' . Realms::VERSION . ' http://github.com/mitchfizz05/Realms');
 
 
 // Find the client session if applicable.

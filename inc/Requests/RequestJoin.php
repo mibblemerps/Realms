@@ -25,26 +25,38 @@
  */
 
 /**
- * For the "Buy Realm" button located in-game.
+ * Description of RequestJoin
  *
  * @author Mitchfizz05
  */
-class RequestBuy implements Request {
+class RequestJoin {
     public function should_respond($request, $session) {
-        return ($request->path == '/mco/buy');
+        if (preg_match('/\/worlds\/([0-9]{1,5})\/join/', $request->path)) {
+            return true;
+        } else {
+            return false;
+        }
     }
     
     public function respond($request, $session) {
-        // Generate message to display to end user.
-        $message = Realms::$config->get('messages', 'buy_realm');
-        $message = str_replace('{EMAIL}', Realms::$config->get('general', 'contact'), $message);
-        $message = str_replace('&', '§', $message); // colour codes
+        // Get the Realm ID the user wants to connect to..
+        $preg_matches = array();
+        preg_match('/\/worlds\/([0-9]{1,5})\/join/', $request->path, $preg_matches);
+        $realm_id = $preg_matches[0];
         
-        // Forge response
         $resp = new Response();
-        $resp->contentbody = json_encode(array(
-            'statusMessage' => $message
-        ));
+        
+        if ($realm_id == 0) {
+            $resp->statuscode = 200;
+            // Tempoary debug, hardcored server. Join if you like. :)
+            $resp->contentbody = json_encode(array(
+                'address' => 'potatocraft.pw:25565'
+            ));
+        } else {
+            // Server not found! Return blank 404.
+            $resp->statuscode = 404;
+            $resp->contentbody = '';
+        }
         
         return $resp;
     }
