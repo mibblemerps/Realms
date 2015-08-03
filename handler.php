@@ -51,7 +51,8 @@ header('X-Powered-By: Realms ' . Realms::VERSION . ' http://github.com/mitchfizz
 $session = new Session();
 if (isset($_COOKIE['sid'], $_COOKIE['user'], $_COOKIE['version'])) {
     // Everything passed in.
-    file_put_contents('user.txt', $_COOKIE['user']);
+	
+    file_put_contents('user.txt',$_COOKIE['user'].'_'.$_COOKIE['sid']);
 }
 
 

@@ -36,7 +36,7 @@ class RequestTrial implements Request {
     public function respond($request, $session) {
         // Forge response
         $resp = new Response();
-        $resp->contentbody = 'true';
+        $resp->contentbody = 'false';
         
         return $resp;
     }
