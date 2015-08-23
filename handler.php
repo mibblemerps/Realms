@@ -1,4 +1,5 @@
 <?php
+$loghandeler = file_get_contents('request_log.txt');
 
 /* 
  * The MIT License
@@ -70,6 +71,8 @@ if ($resp === null) {
 
 http_response_code($resp->statuscode); // send HTTP status code
 header('Content-Type: ' . $resp->contenttype);
+
+
 echo $resp->contentbody; // send content body
 
-
+file_put_contents('request_log.txt', $loghandeler . '|' . $requestpath);
